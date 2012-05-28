@@ -121,5 +121,13 @@
         angles (reductions + 0 (repeat n angle))]
     (mapcat #(make-radiated-comb % (- radius (/ h 2)) w h spacing) angles)))
 
+(defn fix-polygon
+  "Adds a new endpoint to duplicate the beginning if needed. Idempotent."
+  [poly]
+  (if-not (= (last poly) (first poly))
+    (conj poly (last poly))
+    poly))
+
 ;This makes a toothy hexagon
 ;(apply f (center-all-on (conj (make-radiated-combs 6 76 10 20 5) (make-n-gon 100 6)) 500 500))
+;(clojure.string/join "\n" (map (comp draw-polygon fix-polygon) (center-all-on (conj (make-radiated-combs 6 100 10 20 5) (make-n-gon 100 6)) 500 500)))
